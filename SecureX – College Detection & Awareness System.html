@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SecureX – College Detection &amp; Awareness System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#060c18;--glass:rgba(20,34,60,.55);--line:rgba(120,190,255,.16);--tx:#e7f0ff;--mu:#8fa6c7;--blue:#3b82f6;--cyan:#22d3ee;--green:#34d399;--red:#fb5a6b;--amber:#fbbf24;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="light"]{}
+*{box-sizing:border-box;margin:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:radial-gradient(900px 500px at 85% -10%,rgba(34,211,238,.16),transparent),radial-gradient(800px 500px at -10% 30%,rgba(59,130,246,.18),transparent),var(--bg);color:var(--tx);font:15px/1.55 Sora,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+.app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+nav{position:sticky;top:0;height:100vh;padding:22px 16px;border-right:1px solid var(--line);background:rgba(6,12,24,.7);backdrop-filter:blur(14px);display:flex;flex-direction:column;gap:6px}
+.brand{display:flex;gap:10px;align-items:center;margin-bottom:22px;font-weight:700;letter-spacing:.04em}
+.brand small{display:block;color:var(--mu);font-weight:400;font-size:11px;letter-spacing:0}
+.brand svg{width:34px;height:34px;filter:drop-shadow(0 0 8px rgba(34,211,238,.6))}
+nav button{all:unset;cursor:pointer;display:flex;gap:12px;align-items:center;padding:11px 14px;border-radius:12px;color:var(--mu);transition:.2s}
+nav button:hover{background:rgba(59,130,246,.12);color:var(--tx)}
+nav button.on{background:linear-gradient(90deg,rgba(59,130,246,.3),rgba(34,211,238,.12));color:var(--tx);box-shadow:inset 2px 0 var(--cyan)}
+nav button:focus-visible,.btn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+nav svg{width:18px;height:18px;flex:none}
+.tag{margin-top:auto;color:var(--mu);font-size:12px;border-top:1px solid var(--line);padding-top:14px}
+main{padding:28px clamp(16px,3vw,40px) 60px;max-width:1180px;width:100%}
+.page{display:none}.page.on{display:block;animation:in .45s ease}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+h1{font-size:clamp(24px,3.4vw,34px);line-height:1.2}h2{font-size:18px;margin-bottom:12px}h3{font-size:15px}
+.sub{color:var(--mu);margin:6px 0 22px;max-width:60ch}
+.card{background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:20px;backdrop-filter:blur(16px);box-shadow:0 10px 40px rgba(0,0,0,.35);transition:.25s}
+.card:hover{border-color:rgba(34,211,238,.4);transform:translateY(-2px)}
+.grid{display:grid;gap:16px}.g4{grid-template-columns:repeat(4,1fr)}.g2{grid-template-columns:1.2fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}
+.hero{display:flex;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:18px;background:linear-gradient(120deg,rgba(52,211,153,.14),rgba(59,130,246,.16))}
+.status{display:flex;gap:14px;align-items:center}
+.pulse{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:rgba(52,211,153,.15);color:var(--green);animation:pl 2.4s infinite}
+@keyframes pl{0%{box-shadow:0 0 0 0 rgba(52,211,153,.5)}70%,100%{box-shadow:0 0 0 18px transparent}}
+.pulse svg{width:28px;height:28px}
+.stat b{display:block;font-size:30px;line-height:1.1}.stat span{color:var(--mu);font-size:13px}
+.stat .ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;margin-bottom:10px;background:rgba(34,211,238,.12);color:var(--cyan)}
+.btn{all:unset;cursor:pointer;display:inline-flex;gap:8px;align-items:center;justify-content:center;padding:11px 20px;border-radius:12px;font-weight:600;background:linear-gradient(90deg,var(--blue),var(--cyan));color:#031225;transition:.2s;text-align:center}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(34,211,238,.35)}
+.btn.ghost{background:rgba(59,130,246,.1);color:var(--tx);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--cyan)}
+.btn.red{background:rgba(251,90,107,.14);color:var(--red);border:1px solid rgba(251,90,107,.4)}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.alert{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.alert:last-child{border:0}
+.dot{width:10px;height:10px;border-radius:50%;margin-top:6px;flex:none}
+.alert small{color:var(--mu);display:block}
+.pill{display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600}
+.p-red{background:rgba(251,90,107,.15);color:var(--red)}.p-grn{background:rgba(52,211,153,.15);color:var(--green)}.p-amb{background:rgba(251,191,36,.15);color:var(--amber)}
+.mail{background:rgba(8,16,32,.7);border-radius:14px;border:1px solid var(--line);overflow:hidden;transition:.5s}
+.mail.gone{opacity:0;transform:scale(.96);max-height:0;border-width:0}
+.mhead{padding:16px 18px;border-bottom:1px solid var(--line)}.mhead p{color:var(--mu);font-size:13px}
+.mbody{padding:18px}
+.flag{background:rgba(251,191,36,.16);border-bottom:2px solid var(--amber);border-radius:3px;padding:0 3px;cursor:help}
+.fake{color:var(--red);text-decoration:underline dotted;word-break:break-all}
+.fakebtn{display:inline-block;margin-top:14px;padding:9px 18px;border-radius:8px;background:#3a4a66;color:#cfd8e8;font-size:14px;cursor:not-allowed}
+.ind{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+.ind div{padding:12px;border-radius:12px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);font-size:13px}
+.ind svg{width:18px;height:18px;color:var(--amber);display:block;margin-bottom:6px}
+.scan{display:none;text-align:center;padding:24px 10px}
+.radar{width:120px;height:120px;border-radius:50%;margin:0 auto 18px;border:2px solid var(--cyan);position:relative;background:repeating-radial-gradient(circle,transparent 0 18px,rgba(34,211,238,.18) 19px 20px);overflow:hidden}
+.radar::after{content:"";position:absolute;inset:0;background:conic-gradient(from 0deg,rgba(34,211,238,.6),transparent 40%);animation:sp 1.2s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.steps{list-style:none;padding:0;max-width:340px;margin:0 auto;text-align:left;color:var(--mu)}
+.steps li{padding:5px 0;opacity:.35;transition:.3s}.steps li.d{opacity:1;color:var(--tx)}.steps li.d::before{content:"✓ ";color:var(--green)}
+.bar{height:6px;border-radius:9px;background:rgba(255,255,255,.08);margin-top:16px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:width 2.6s linear}
+.result{display:none;border:1px solid rgba(251,90,107,.55);background:linear-gradient(160deg,rgba(251,90,107,.14),rgba(20,34,60,.6));margin-top:18px;animation:in .5s}
+.result h2{color:var(--red);font-size:clamp(18px,3vw,24px);display:flex;gap:10px;align-items:center}
+.result ul{padding-left:20px;margin:12px 0}.result li{padding:3px 0}
+.acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.flow{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 20px;padding:0;list-style:none;counter-reset:s}
+.flow li{counter-increment:s;padding:6px 12px;border-radius:99px;border:1px solid var(--line);font-size:12px;color:var(--mu);transition:.3s}
+.flow li::before{content:counter(s) ". "}
+.flow li.d{color:var(--tx);border-color:var(--cyan);background:rgba(34,211,238,.12)}
+.learn h3{display:flex;gap:10px;align-items:center;margin-bottom:6px}
+.learn h3 svg{width:20px;color:var(--cyan)}.learn p,.learn li{color:var(--mu);font-size:14px}.learn ul{padding-left:18px}
+.chart{display:flex;align-items:flex-end;gap:10px;height:180px;padding-top:10px}
+.chart div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;font-size:11px;color:var(--mu);gap:6px}
+.chart i{width:100%;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,var(--cyan),var(--blue));height:0;transition:height 1s cubic-bezier(.2,.8,.2,1)}
+.chart i.t{background:linear-gradient(180deg,var(--red),#b4233a)}
+.rings{display:flex;gap:18px;flex-wrap:wrap;justify-content:space-around}
+.ring{text-align:center;font-size:13px;color:var(--mu)}
+.ring svg{width:96px;height:96px;transform:rotate(-90deg)}.ring circle{fill:none;stroke-width:9;stroke-linecap:round}
+.ring .bg{stroke:rgba(255,255,255,.08)}.ring .fg{transition:stroke-dashoffset 1.2s;stroke-dasharray:264;stroke-dashoffset:264}
+.ring b{display:block;color:var(--tx);font-size:18px;margin-top:-62px;margin-bottom:34px}
+.modal{position:fixed;inset:0;background:rgba(2,6,14,.75);backdrop-filter:blur(6px);display:none;place-items:center;padding:16px;z-index:30}
+.modal.on{display:grid}.modal .card{max-width:480px;width:100%;animation:in .3s}.modal ol{padding-left:20px;margin:10px 0 16px}.modal li{padding:4px 0}
+.toast{position:fixed;bottom:calc(84px + env(safe-area-inset-bottom,0px));left:50%;transform:translate(-50%,30px);background:#0d2236;border:1px solid var(--green);color:var(--tx);padding:11px 20px;border-radius:12px;opacity:0;transition:.35s;z-index:40;pointer-events:none;max-width:92vw}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.demo{font-size:12px;color:var(--mu);margin-top:26px;text-align:center}
+@media(max-width:960px){.g4{grid-template-columns:repeat(2,1fr)}.g2,.g3{grid-template-columns:1fr}.ind{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){
+.app{display:block}
+nav{position:fixed;top:auto;bottom:0;left:0;right:0;height:auto;flex-direction:row;justify-content:space-around;padding:8px 6px calc(8px + env(safe-area-inset-bottom,0px));border-right:0;border-top:1px solid var(--line);z-index:20}
+.brand,.tag{display:none}nav button{flex-direction:column;gap:3px;font-size:11px;padding:8px 10px}
+main{padding-bottom:110px}.mobhead{display:flex!important}}
+.mobhead{display:none;gap:10px;align-items:center;font-weight:700;margin-bottom:16px}.mobhead svg{width:28px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+:root{--ph:0}
+@media(prefers-color-scheme:light){body{}}
+
+#intro{position:fixed;inset:0;z-index:50;overflow:hidden;background:#04140d;color:#f3fff7;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);transition:opacity .7s,visibility .7s}
+#intro.out{opacity:0;visibility:hidden}
+.jg{position:absolute;inset:0;background:radial-gradient(60% 50% at 70% 10%,rgba(255,236,150,.45),transparent 60%),radial-gradient(70% 60% at 20% 80%,#0a4a2a,transparent),linear-gradient(180deg,#0d5a30,#04200f)}
+.jg i{position:absolute;border-radius:50%;filter:blur(38px);animation:dr 14s ease-in-out infinite alternate}
+.jg i:nth-child(1){width:46vw;height:46vw;left:-10vw;top:-12vw;background:#1f8f4a}.jg i:nth-child(2){width:38vw;height:38vw;right:-8vw;top:20vh;background:#7bd34a;opacity:.55;animation-delay:-4s}
+.jg i:nth-child(3){width:50vw;height:30vw;left:20vw;bottom:-14vw;background:#0b6b3a;animation-delay:-8s}.jg i:nth-child(4){width:18vw;height:18vw;left:48vw;top:6vh;background:#ffe9a0;opacity:.5;animation-delay:-2s}
+@keyframes dr{to{transform:translate(4vw,3vw) scale(1.12)}}
+.inav{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px clamp(16px,4vw,48px)}
+.inav b{font-size:22px;letter-spacing:.02em}.inav div{display:flex;gap:6px}
+.inav a{cursor:pointer;padding:8px 14px;border-radius:99px;color:#d6f3df;font-size:14px;transition:.2s}.inav a:hover{background:rgba(255,255,255,.14);color:#fff}
+.inav .btn{background:#ffb020;color:#2a1700}
+.icopy{position:relative;z-index:3;padding:clamp(20px,6vh,70px) clamp(16px,4vw,48px) 0;max-width:760px}
+.icopy h1{font-size:clamp(42px,9vw,104px);line-height:.98;font-weight:700;letter-spacing:-.03em;text-shadow:0 6px 40px rgba(0,0,0,.35)}
+.icopy p{margin:18px 0 24px;color:#cfeedb;max-width:46ch;font-size:clamp(15px,2vw,18px)}
+.mets{position:absolute;z-index:3;left:clamp(16px,4vw,48px);bottom:calc(22px + env(safe-area-inset-bottom,0px));display:flex;gap:12px;flex-wrap:wrap}
+.mets div{padding:14px 20px;border-radius:16px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(14px);min-width:120px}
+.mets b{display:block;font-size:26px}.mets span{font-size:12px;color:#cfeedb}
+.bird{position:absolute;z-index:2;width:clamp(170px,26vw,340px);left:0;top:0;animation:fly 7s cubic-bezier(.45,.05,.3,1) forwards;filter:drop-shadow(0 20px 24px rgba(0,0,0,.4))}
+@keyframes fly{0%{transform:translate(-30vw,22vh) scale(.35) rotate(-6deg)}45%{transform:translate(38vw,10vh) scale(.5) rotate(4deg)}75%{transform:translate(58vw,30vh) scale(.8) rotate(-4deg)}100%{transform:translate(60vw,38vh) scale(1.35) rotate(0)}}
+.bird .wing{transform-origin:78px 70px;animation:fl .22s ease-in-out 31 alternate}
+.bird .wing2{animation-delay:-.1s}
+@keyframes fl{from{transform:rotate(-34deg)}to{transform:rotate(26deg)}}
+.branch{position:absolute;z-index:1;left:44vw;right:-5vw;top:calc(38vh + clamp(180px,26vw,300px)*.72);height:16px;border-radius:9px;background:linear-gradient(#5a3a1e,#2e1c0d);transform:rotate(-2deg);opacity:0;animation:sh 1s 5.6s forwards;filter:drop-shadow(0 8px 10px rgba(0,0,0,.4))}
+@keyframes sh{to{opacity:1}}
+@media(max-width:760px){.inav div{display:none}.bird{animation-name:flym}@keyframes flym{0%{transform:translate(-30vw,30vh) scale(.35)}60%{transform:translate(30vw,28vh) scale(.6)}100%{transform:translate(30vw,46vh) scale(1)}}.branch{left:10vw;top:calc(46vh + 150px)}.mets div{min-width:96px;padding:10px 14px}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="shield" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m8.5 12 2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m4 7 8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+<symbol id="warn" viewBox="0 0 24 24"><path d="M12 3 2 20h20L12 3Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 10v5M12 17.6v.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+<symbol id="book" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5Z M6 19h13v2H6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+<symbol id="chart" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16M8 16v-4M12 16V8M16 16v-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+<symbol id="home" viewBox="0 0 24 24"><path d="M3 11 12 3l9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+<symbol id="lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+<symbol id="link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3A4 4 0 0 0 11 18.700l1-1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+<symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+<symbol id="user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+</defs></svg>
+
+<div id="intro"><div class="jg"><i></i><i></i><i></i><i></i></div>
+<div class="inav"><b>Toucan</b><div><a data-i="dash">Platform</a><a data-i="mon">Coverage</a><a data-i="learn">Research</a><a data-i="scan">Company</a></div><button class="btn" data-i="dash">Get Access</button></div>
+<div class="bird" aria-hidden="true"><svg viewBox="0 0 260 150"><defs><linearGradient id="bk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff8a00"/><stop offset=".8" stop-color="#ffb320"/><stop offset="1" stop-color="#ff6a00"/></linearGradient></defs>
+<g class="wing wing2" opacity=".75"><path d="M80 70 C40 20 5 20 -5 30 C30 40 55 60 80 78Z" fill="#111"/></g>
+<path d="M18 112 L70 78 L96 100 L40 128Z" fill="#0e0e10"/><ellipse cx="96" cy="84" rx="52" ry="27" transform="rotate(-8 96 84)" fill="#17171a"/>
+<path d="M130 62 q16 20 4 38 q-16 -8 -18 -26Z" fill="#fff"/><path d="M104 108 q4 12 14 14" stroke="#e53935" stroke-width="5" fill="none" stroke-linecap="round"/>
+<circle cx="146" cy="58" r="22" fill="#17171a"/><path d="M142 66 q14 18 4 34 q-18 -10 -20 -30Z" fill="#fff"/>
+<path d="M158 44 C190 40 226 46 252 60 C228 84 190 86 162 78Z" fill="url(#bk)"/><path d="M226 50 C240 53 248 57 252 60 C244 70 236 76 228 80Z" fill="#111"/><path d="M160 62 L248 62" stroke="#c44a00" stroke-width="2"/>
+<circle cx="156" cy="54" r="9" fill="#3aa0ff"/><circle cx="156" cy="54" r="5" fill="#111"/><circle cx="154" cy="52" r="1.6" fill="#fff"/>
+<g class="wing"><path d="M80 70 C40 12 0 12 -10 24 C25 36 55 58 82 80Z" fill="#0c0c0e"/><path d="M62 52 C40 28 20 24 6 26" stroke="#2b2b30" stroke-width="3" fill="none"/></g></svg></div>
+<div class="branch"></div>
+<div class="icopy"><h1>Loud where it counts</h1><p>Real-time phishing detection that makes noise only when a threat does. Built for campuses, demo data only.</p><button class="btn" data-i="dash" style="padding:14px 28px">Get Access</button></div>
+<div class="mets"><div><b>12ms</b><span>Avg. scan time</span></div><div><b>99.9%</b><span>Uptime (demo)</span></div><div><b>24/7</b><span>Monitoring</span></div></div></div>
+<div class="app">
+<nav aria-label="Main">
+  <div class="brand"><svg style="color:var(--cyan)"><use href="#shield"/></svg><div>SecureX<small>Detect. Protect. Stay Secure.</small></div></div>
+  <button class="on" data-go="dash"><svg><use href="#home"/></svg>Dashboard</button>
+  <button data-go="scan"><svg><use href="#mail"/></svg>Check Email</button>
+  <button data-go="learn"><svg><use href="#book"/></svg>Awareness</button>
+  <button data-go="mon"><svg><use href="#chart"/></svg>Monitoring</button>
+  <div class="tag">Educational prototype.<br>Demo data only. No real accounts, links or credentials.</div>
+</nav>
+
+<main>
+<div class="mobhead"><svg style="color:var(--cyan)"><use href="#shield"/></svg>SecureX</div>
+
+<!-- DASHBOARD -->
+<section class="page on" id="dash">
+  <div class="card hero">
+    <div class="status"><div class="pulse"><svg><use href="#shield"/></svg></div>
+      <div><h1>System Protected</h1><p class="sub" style="margin:4px 0 0">SecureX – College Phishing Detection &amp; Awareness System</p></div></div>
+    <button class="btn" data-go="scan"><svg width="18" height="18"><use href="#mail"/></svg>Check Email</button>
+  </div>
+  <div class="grid g4">
+    <div class="card stat"><div class="ic"><svg width="18" height="18"><use href="#mail"/></svg></div><b data-k="scanned">125</b><span>Emails scanned</span></div>
+    <div class="card stat"><div class="ic" style="color:var(--amber);background:rgba(251,191,36,.12)"><svg width="18" height="18"><use href="#warn"/></svg></div><b data-k="threats">8</b><span>Threats detected</span></div>
+    <div class="card stat"><div class="ic" style="color:var(--green);background:rgba(52,211,153,.12)"><svg width="18" height="18"><use href="#shield"/></svg></div><b data-k="blocked">8</b><span>Threats blocked</span></div>
+    <div class="card stat"><div class="ic"><svg width="18" height="18"><use href="#lock"/></svg></div><b style="color:var(--green)">Enabled</b><span>MFA status</span></div>
+  </div>
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card"><h2>Recent security alerts</h2><div id="alerts"></div></div>
+    <div class="card learn"><h2>Security awareness</h2>
+      <h3><svg><use href="#warn"/></svg>Think before you click</h3>
+      <p>Real college IT teams never ask for your password by email. If a message pushes you to act fast, stop and check the sender first.</p>
+      <div class="acts"><button class="btn ghost" data-go="learn">Read the guide</button><button class="btn ghost" data-tips>Quick safety tips</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- SCANNER -->
+<section class="page" id="scan">
+  <h1>Check an email</h1>
+  <p class="sub">This is a made-up email for the demo. Press Scan Email to see how SecureX analyses it.</p>
+  <ol class="flow" id="flow"><li class="d">Email received</li><li class="d">Open SecureX</li><li>Scan</li><li>Threat detected</li><li>Warning</li><li>Report or block</li><li>Safety tips</li></ol>
+  <div class="mail" id="mail">
+    <div class="mhead"><h3>URGENT: <span class="flag" title="Urgent language">College Account Verification Required</span></h3>
+      <p>From: <span class="flag" title="Suspicious sender">suspicious@example.com</span> &nbsp;·&nbsp; To: student@college.demo</p></div>
+    <div class="mbody">
+      <p>Dear student,</p><br>
+      <p>Your college account requires <span class="flag" title="Urgent language">immediate verification</span>. Failure to verify may result in <span class="flag" title="Threat">account suspension</span>.</p><br>
+      <p>Please confirm your <span class="flag" title="Sensitive info request">username and password</span> using the link below:</p>
+      <p class="fake" style="margin-top:8px" title="Demo-only link, not clickable">http://college-verify-login.demo-fake.invalid/secure</p>
+      <span class="fakebtn" aria-disabled="true">Verify Account (demo – disabled)</span>
+    </div>
+  </div>
+  <div class="ind">
+    <div><svg><use href="#user"/></svg>Suspicious sender</div>
+    <div><svg><use href="#clock"/></svg>Urgent or threatening language</div>
+    <div><svg><use href="#link"/></svg>Suspicious link</div>
+    <div><svg><use href="#lock"/></svg>Request for sensitive information</div>
+  </div>
+  <div class="card scan" id="scanning"><div class="radar"></div><h3 style="margin-bottom:12px">Analysing email…</h3>
+    <ul class="steps"><li>Checking sender domain</li><li>Scanning language for urgency</li><li>Inspecting links</li><li>Looking for credential requests</li></ul>
+    <div class="bar"><i id="pbar"></i></div></div>
+  <button class="btn" id="scanBtn" style="width:100%;max-width:340px;padding:15px"><svg width="20" height="20"><use href="#shield"/></svg>Scan Email</button>
+
+  <div class="card result" id="result">
+    <h2><svg width="28" height="28"><use href="#warn"/></svg>PHISHING EMAIL DETECTED</h2>
+    <p>Risk level: <span class="pill p-red">HIGH</span></p>
+    <ul><li>Suspicious sender detected</li><li>Suspicious link detected</li><li>Urgent request detected</li><li>Possible credential theft attempt</li></ul>
+    <p style="color:var(--mu)">Do not click the link or reply. Choose an action below (simulated only).</p>
+    <div class="acts">
+      <button class="btn red" data-act="block">Block Sender</button>
+      <button class="btn red" data-act="report">Report Phishing</button>
+      <button class="btn red" data-act="delete">Delete Email</button>
+      <button class="btn ghost" data-tips>View Safety Tips</button>
+    </div>
+  </div>
+</section>
+
+<!-- AWARENESS -->
+<section class="page" id="learn">
+  <h1>Security awareness</h1>
+  <p class="sub">Seven short lessons for students and staff.</p>
+  <div class="grid g3 learn" id="lessons"></div>
+</section>
+
+<!-- MONITORING -->
+<section class="page" id="mon">
+  <h1>Security monitoring</h1>
+  <p class="sub">Live demo figures. Scan and report the sample email to watch them change.</p>
+  <div class="grid g4">
+    <div class="card stat"><b data-k="scanned">125</b><span>Emails scanned</span></div>
+    <div class="card stat"><b data-k="threats" style="color:var(--amber)">8</b><span>Phishing emails detected</span></div>
+    <div class="card stat"><b data-k="blocked" style="color:var(--green)">8</b><span>Emails blocked</span></div>
+    <div class="card stat"><b data-k="reports">5</b><span>Reports submitted</span></div>
+  </div>
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card"><h2>Weekly scans and threats</h2><div class="chart" id="chart"></div></div>
+    <div class="card"><h2>Protection levels</h2><div class="rings" id="rings"></div>
+      <p style="margin-top:14px">Current status: <span class="pill p-grn" id="stat">System Protected</span></p></div>
+  </div>
+</section>
+<p class="demo">SecureX is an educational prototype. All emails, links and numbers are fictional.</p>
+</main>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true"><div class="card">
+  <h2>Safety tips</h2>
+  <ol><li>Check the sender address, not just the display name.</li><li>Hover over links before you click.</li><li>Never share passwords by email.</li><li>Turn on multi-factor authentication.</li><li>Report anything suspicious to your IT team.</li></ol>
+  <button class="btn" id="closeM">Got it</button></div></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const S={scanned:125,threats:8,blocked:8,reports:5,done:{}};
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const alerts=[["red","Phishing email blocked","Fake 'password reset' from admin@college-help.demo","2 min ago"],["amb","Suspicious link removed","Link to look-alike library portal","1 hr ago"],["grn","MFA check passed","Staff login verified with second step","3 hr ago"],["red","Phishing email blocked","Fake scholarship offer asking for bank details","Yesterday"]];
+const col={red:"var(--red)",amb:"var(--amber)",grn:"var(--green)"};
+function renderAlerts(){$("#alerts").innerHTML=alerts.map(a=>`<div class="alert"><span class="dot" style="background:${col[a[0]]}"></span><div><b>${a[1]}</b><small>${a[2]} · ${a[3]}</small></div></div>`).join("")}
+function sync(){$$("[data-k]").forEach(e=>e.textContent=S[e.dataset.k]);drawMon()}
+function go(id){$$(".page").forEach(p=>p.classList.toggle("on",p.id===id));$$("nav button").forEach(b=>b.classList.toggle("on",b.dataset.go===id));scrollTo({top:0});if(id==="mon")drawMon()}
+document.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(g)go(g.dataset.go);if(e.target.closest("[data-tips]"))tips()});
+function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("on"),2600)}
+function flow(n){$$("#flow li").forEach((l,i)=>l.classList.toggle("d",i<n))}
+function tips(){$("#modal").classList.add("on");if(S.result)flow(7)}
+$("#closeM").onclick=()=>$("#modal").classList.remove("on");
+$("#modal").onclick=e=>{if(e.target.id==="modal")e.currentTarget.classList.remove("on")};
+
+$("#scanBtn").onclick=()=>{
+  const b=$("#scanBtn");b.disabled=true;b.style.display="none";flow(3);
+  $("#scanning").style.display="block";const items=$$(".steps li");items.forEach(l=>l.classList.remove("d"));
+  requestAnimationFrame(()=>$("#pbar").style.width="100%");
+  items.forEach((l,i)=>setTimeout(()=>l.classList.add("d"),(i+1)*600));
+  setTimeout(()=>{$("#scanning").style.display="none";$("#result").style.display="block";$("#pbar").style.width="0";
+    S.scanned++;S.threats++;S.result=true;alerts.unshift(["red","Phishing email detected","Fake account verification from suspicious@example.com","Just now"]);renderAlerts();sync();flow(5);
+    $("#result").scrollIntoView({behavior:"smooth",block:"center"})},2700);
+};
+$$("[data-act]").forEach(b=>b.onclick=()=>{
+  const a=b.dataset.act;if(S.done[a])return;S.done[a]=1;b.disabled=true;
+  if(a==="block"){S.blocked++;toast("Sender blocked (simulated)")}
+  if(a==="report"){S.reports++;toast("Report sent to IT team (simulated)");alerts.unshift(["grn","Report submitted","Thank you for reporting the verification email","Just now"]);renderAlerts()}
+  if(a==="delete"){$("#mail").classList.add("gone");toast("Email deleted (simulated)")}
+  flow(6);sync();setTimeout(()=>{if(Object.keys(S.done).length>=1)tips()},900);
+});
+
+const lessons=[
+["What is phishing?","Phishing is a trick where an attacker pretends to be someone you trust, such as the college IT desk, to steal passwords or personal details.","book"],
+["How attacks work","1) A convincing email arrives. 2) It pushes you to click a link. 3) A fake page asks for your login. 4) The attacker uses it to get into your account.","link"],
+["Common warning signs","<ul><li>Odd sender address</li><li>Urgent or scary wording</li><li>Links that do not match the real site</li><li>Requests for passwords or OTPs</li><li>Spelling mistakes</li></ul>","warn"],
+["How students stay safe","Type the college site address yourself. Hover over links. Ask your department if unsure. Keep your device and apps updated.","shield"],
+["Why MFA matters","Multi-factor authentication adds a second step, like a code on your phone. A stolen password alone is no longer enough to get in.","lock"],
+["Strong passwords","Use a long passphrase of 14+ characters, a different one for each account, and a password manager. Never share it, even with staff.","user"],
+["How to report","Do not click or reply. Use Report Phishing in SecureX, or forward the email to your IT help desk, then delete it.","mail"]];
+$("#lessons").innerHTML=lessons.map(l=>`<div class="card"><h3><svg><use href="#${l[2]}"/></svg>${l[0]}</h3><div style="margin-top:6px">${l[1].startsWith("<")?l[1]:`<p>${l[1]}</p>`}</div></div>`).join("");
+
+function drawMon(){
+  const d=[["Mon",18,1],["Tue",22,2],["Wed",15,0],["Thu",25,2],["Fri",30,3],["Sat",8,0],["Sun",7,0]];
+  d[6][1]+=S.scanned-125;d[6][2]+=S.threats-8;
+  const mx=Math.max(...d.map(x=>x[1]));
+  $("#chart").innerHTML=d.map(x=>`<div><i style="height:${x[1]/mx*80}%" title="${x[1]} scanned"></i><i class="t" style="height:${Math.max(x[2],0)/mx*80}%;min-height:${x[2]?4:0}px" title="${x[2]} threats"></i>${x[0]}</div>`).join("");
+  // chart bars: scanned + threats stack
+  const r=[["Blocked",Math.min(100,S.blocked/Math.max(S.threats,1)*100),"var(--green)"],["MFA coverage",92,"var(--cyan)"],["Awareness",78,"var(--blue)"]];
+  $("#rings").innerHTML=r.map(x=>`<div class="ring"><svg viewBox="0 0 96 96"><circle class="bg" cx="48" cy="48" r="42"/><circle class="fg" cx="48" cy="48" r="42" stroke="${x[2]}" style="stroke-dashoffset:${264-264*x[1]/100}"/></svg><b>${Math.round(x[1])}%</b>${x[0]}</div>`).join("");
+  const un=S.threats-S.blocked;$("#stat").textContent=un>0?"Action needed":"System Protected";$("#stat").className="pill "+(un>0?"p-amb":"p-grn");
+}
+renderAlerts();sync();
+$$("[data-i]").forEach(e=>e.onclick=()=>{go(e.dataset.i);$("#intro").classList.add("out")});
+</script>
+</body>
+</html>
